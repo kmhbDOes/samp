@@ -57,7 +57,7 @@ const displayQuiz = (data) => {
     quizContainer.innerHTML = "";
     return;
   }
-  console.log(data);
+
 
   data.forEach((quiz, i) => {
     quizContainer.innerHTML += `<div class="m-3 py-3 px-4 shadow-sm rounded">
@@ -75,7 +75,7 @@ const displayQuiz = (data) => {
 };
 
 // EventListener for quiz submit button
-document.querySelector("#submit").addEventlistener("click", () => {
+document.querySelector("#submit").addEventListener("click", () => {
   if (answers.length < 6) {
     return;
   }
@@ -183,3 +183,30 @@ document.querySelector("#submit").addEventlistener("click", () => {
   }, 1500);
   window.scrollTo(0, 0);
 });
+
+const showPreviousResults = () => {
+  let storage = JSON.parse(localStorage.getItem("results"));
+  if (storage) {
+    let resultsContainer = document.querySelector("#previousResults");
+    let resultsHTML = "";
+
+    storage.forEach((result, i) => {
+      resultsHTML += `
+        <div class="flex justify-between items-center border rounded p-2 my-2 shadow-sm font-medium">
+          <div>
+            <p class="text-gray-600">Quiz ${i + 1}</p>
+            <p class="text-lg">${result.marks}/60</p>
+            <p class="text-sm">${result.status}</p>
+          </div>
+          <div>
+            <p class="text-sm text-gray-600">Time Taken</p>
+            <p class="text-lg">${result.examTime}</p>
+          </div>
+        </div>
+      `;
+    });
+
+    resultsContainer.innerHTML = resultsHTML;
+  }
+}
+showPreviousResults();
